@@ -27,7 +27,6 @@ export const AddTodo = ({ onAddSuccess }) => {
         }
       )
       .then((response) => {
-        debugger
         //console.log(response)
         handleClear()
         onAddSuccess()

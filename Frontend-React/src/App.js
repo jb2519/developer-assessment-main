@@ -14,17 +14,18 @@ const App = () => {
   }, [])
 
   async function handleMarkAsComplete(item) {
-    try {
-      const toggledItem = { ...item, isCompleted: !item.isCompleted }
-      axios.put(`${API_URL}/${toggledItem.id}`, JSON.stringify(toggledItem), {
+    const toggledItem = { ...item, isCompleted: !item.isCompleted }
+    axios
+      .put(`${API_URL}/${toggledItem.id}`, JSON.stringify(toggledItem), {
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      setItems(items.filter((todo) => todo.id !== toggledItem.id))
-    } catch (error) {
-      console.error(error)
-    }
+      .catch((error) => {
+        //TODO add toast or any other UI notification library
+        console.error(error)
+      })
+    setItems(items.filter((todo) => todo.id !== toggledItem.id))
   }
   const renderTodoItemsContent = () => {
     return (
@@ -63,13 +64,16 @@ const App = () => {
   }
 
   async function getItems() {
-    try {
-      axios.get(API_URL).then((response) => {
+    axios
+      .get(API_URL)
+      .then((response) => {
         setItems(response.data)
       })
-    } catch (error) {
-      console.error(error)
-    }
+      .catch((error) => {
+        //alert(error.message)
+        //TODO add toast or any other UI notification library
+        console.error(error)
+      })
   }
 
   return (
